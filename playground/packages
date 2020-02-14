@@ -1,0 +1,5 @@
+npm install express
+npm install mongoose
+npm install validator
+npm install bcryptjs        - for password encryption
+npm install jsonwebtoken
