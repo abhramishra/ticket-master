@@ -20,10 +20,10 @@ module.exports.login = (req,res) => {
             // res.send(user)
         })
         .then((token) => {
-            res.header('x-auth', token).status(200).send('successfullly loged in')
+            res.header('x-auth', token).status(200).json(token)
         })
         .catch((err) => {
-            res.send(err)
+            res.json({error: err})
         })
 }
 

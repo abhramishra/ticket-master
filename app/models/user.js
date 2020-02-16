@@ -68,7 +68,7 @@ userSchema.statics.findByCredential = function(email, password) {
     return User.findOne({email})
         .then((user) => {
             if (!user) {
-                return Promise.reject('Invalid email or password')
+                return Promise.reject('Invalid email')
             }
             console.log(password)
             return bcryptjs.compare(password, user.password)
@@ -78,7 +78,7 @@ userSchema.statics.findByCredential = function(email, password) {
                         console.log(user)
                         return Promise.resolve(user)
                     } else {
-                        return Promise.reject('Invalid emai or password')
+                        return Promise.reject('Invalid password')
                     }
                 })
         })
