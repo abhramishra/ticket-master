@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Link, Switch } from 'react-router-dom'
 import Home from './components/static/Home'
 import Login from './components/users/Login'
 import Register from './components/users/Register'
+import Logout from './components/users/Logout'
 
 import CustomerList from './components/customers/List'
 import CustomerNew from './components/customers/New'
@@ -46,6 +47,7 @@ function App(props) {
 
                     <Route path="/users/login" component={Login} />
                     <Route path="/users/register" component={Register} />
+                    <Route path="/users/logout" component={Logout} />
 
                     <Route path="/customers" component={CustomerList} exact />
                     <Route path="/customers/new" component={CustomerNew} />
