@@ -20,8 +20,8 @@ module.exports.login = (req,res) => {
             // res.send(user)
         })
         .then((token) => {
-            console.log('abcsdsddsdds')
-            res.header('x-auth', token).send(token)
+            console.log('inside then')
+            res.header('x-auth', token).send({})
             // res.setHeader('x-auth', token).send({abc})
         })
         .catch((err) => {

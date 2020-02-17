@@ -120,6 +120,7 @@ userSchema.methods.generateToken = function() {
     }
     const token = jwt.sign(tokenData, 'jwt@123')    // it will generate a new token
     user.tokens.push({
+        access: 'auth',
         token
     })
     console.log(user.tokens)

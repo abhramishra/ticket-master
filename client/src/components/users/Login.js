@@ -28,8 +28,8 @@ class Login extends React.Component {
              if (response.data.hasOwnProperty('error')) {
                  window.alert(response.data.error)
              } else {
+                 const token = response.headers['x-auth']
                 //  const token = response.headers['x-auth']
-                 const token = response.data
                  localStorage.setItem('authToken', token)
                  this.props.history.push('/')
                  window.location.reload()
