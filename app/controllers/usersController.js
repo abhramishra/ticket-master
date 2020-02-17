@@ -26,8 +26,13 @@ module.exports.login = (req,res) => {
         })
         .catch((err) => {
             console.log('inside catch')
-            res.json({error: err})
+            res.status(401).json({error: err})
         })
+}
+
+module.exports.account = (req,res) => {
+    const user = req.user   // req.user data is comming from authenticateUser
+    res.send(user)
 }
 
 module.exports.logout = (req, res) => {
