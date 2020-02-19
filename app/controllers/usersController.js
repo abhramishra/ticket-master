@@ -20,12 +20,10 @@ module.exports.login = (req,res) => {
             // res.send(user)
         })
         .then((token) => {
-            console.log('inside then')
             res.header('x-auth', token).send({})
             // res.setHeader('x-auth', token).send({abc})
         })
         .catch((err) => {
-            console.log('inside catch')
             res.status(401).json({error: err})
         })
 }

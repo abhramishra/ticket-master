@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from '../../config/axios'
 import { Link } from 'react-router-dom'
-import isEmpty from 'lodash/isEmpty'
+import { Card, CardBody, CardText, Button } from 'reactstrap'
 
 class TicketShow extends React.Component {
     constructor() {
@@ -66,8 +66,18 @@ class TicketShow extends React.Component {
                 {
                     Object.values(this.state.ticket).length ? (
                         <div>
-                            <h2>{ ticket.code } - { ticket.customer.name } - { ticket.department.name } - { ticket.message } - { ticket.priorities }</h2>
-                            <Link to={`/tickets/edit/${ticket._id}`}>Edit</Link>
+                            <Card>
+                                <CardBody>
+                                    <CardText>Code - {ticket.code}</CardText>
+                                    <CardText>Customer - {ticket.customer.name}</CardText>
+                                    <CardText>Department - {ticket.department.name}</CardText>
+                                    <CardText>Employees - {ticket.employees.map(employee => <span key={employee._id}>{employee.name}, </span>)}</CardText>
+                                    <CardText>Message - {ticket.message}</CardText>
+                                    <CardText>Priority - {ticket.priorities}</CardText>
+                                </CardBody>
+                            </Card><br/>
+                            <Link to={`/tickets/edit/${ticket._id}`}><Button>Edit</Button> </Link>
+                            <Link to={`/tickets`}> <Button>Back</Button></Link>
                         </div>
                     ): (
                         <div>

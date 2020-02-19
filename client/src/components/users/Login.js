@@ -23,7 +23,6 @@ class Login extends React.Component {
             email: this.state.email,
             password: this.state.password
         }
-        console.log(formData)
         axios.post('/users/login', formData)
          .then((response) => {
              if (response.data.hasOwnProperty('error')) {

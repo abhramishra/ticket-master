@@ -32,8 +32,12 @@ class EmployeeList extends React.Component {
                 }
             })
                 .then(response => {
-                    const employees = this.state.employees.filter(employee => employee._id != id)
-                    this.setState({ employees })
+                    if (response.data.isEmployeeAttachedToTkt) {
+                        alert("This employee is attached to some other ticket, you need to delete that ticket first")
+                    } else {
+                        const employees = this.state.employees.filter(employee => employee._id != id)
+                        this.setState({ employees })
+                    }
                 })
                 .catch(err => {
                     alert(err)

@@ -20,7 +20,6 @@ class CustomerEdit extends React.Component {
         })
         .then((response) => {
             const customer = response.data
-            console.log(customer)
             this.setState({customer})
         })
         .catch((err) => {
@@ -35,7 +34,6 @@ class CustomerEdit extends React.Component {
             }
         })
         .then((response) => {
-            console.log(response.data)
             this.props.history.push(`/customers/${this.props.match.params.id}`)
         })
         .catch((err) => {
@@ -44,7 +42,6 @@ class CustomerEdit extends React.Component {
     }
     
     render() {
-        console.log('inside render',this.state.customer)
         return (
             <div className="container">
                 <h1>Customer Edit</h1>

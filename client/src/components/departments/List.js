@@ -53,10 +53,15 @@ class DepartmentList extends React.Component {
                 }
             })
             .then((response) => {
-                const department = response.data
-                this.setState(prevState => ({
-                    departments: prevState.departments.filter(dept => dept._id != department._id)
-                }))
+                if (response.data.isDepartmentAttachedToTkt) {
+                    alert("This department is attached to some other ticket, you can not delete")
+                } else if (response.data.isDepartmentAttachedToEmp) {
+                    alert("This department is attached to some other employee")
+                } else {
+                    this.setState(prevState => ({
+                        departments: prevState.departments.filter(dept => dept._id != id)
+                    }))
+                }           
             })
             .catch((err) => {
                 alert(err)

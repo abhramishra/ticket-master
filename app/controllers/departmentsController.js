@@ -1,4 +1,6 @@
 const Department = require('../models/department')
+const Ticket = require('../models/ticket')
+const Employee = require('../models/employee')
 
 module.exports.list = (req,res) => {
     Department.find()
@@ -47,11 +49,26 @@ module.exports.update = (req,res) => {
 
 module.exports.destroy = (req,res) => {
     const id = req.params.id
-    Department.findByIdAndRemove(id)
-        .then(department => {
-            res.send(department)
+    Ticket.find({ department: id })
+        .then(ticket => {
+            if (ticket.length) {
+                res.status(200).send({ isDepartmentAttachedToTkt: true })
+            } else {
+                Employee.find({ department: id })
+                    .then(employee => {
+                        if (employee.length) {
+                            res.status(200).send({ isDepartmentAttachedToEmp: true })
+                        } else {
+                            Department.findByIdAndRemove(id)
+                                .then(department => {
+                                    res.status(200).send(department)
+                                })
+                                .catch(err => {
+                                    res.status(401).send(err)
+                                })
+                        }
+                    })              
+            }
         })
-        .catch(err => {
-            res.send(err)
-        })
+    
 }

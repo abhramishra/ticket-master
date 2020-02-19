@@ -1,4 +1,5 @@
 const Employee = require('../models/employee')
+const Ticket = require('../models/ticket')
 
 module.exports.list = (req,res) => {
     Employee.find().populate('department')
@@ -47,11 +48,21 @@ module.exports.update = (req,res) => {
 
 module.exports.destroy = (req,res) => {
     const id = req.params.id
-    Employee.findByIdAndRemove(id)
-        .then(employee => {
-            res.send(employee)
-        })    
+    Ticket.find( {employees: id} )
+        .then(ticket => {
+            if (ticket.length) {
+                res.status(200).send({ isEmployeeAttachedToTkt: true })
+            } else {
+                Employee.findByIdAndRemove(id)
+                    .then(employee => {
+                        res.status(200).send(employee)
+                    })    
+                    .catch(err => {
+                        res.status(401).send(err)
+                    })
+            }
+        })
         .catch(err => {
-            res.send(err)
+            res.status(401).send(err)
         })
 }

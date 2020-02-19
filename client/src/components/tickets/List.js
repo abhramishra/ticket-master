@@ -1,7 +1,6 @@
 import React from 'react'
 import axios from '../../config/axios'
 import { Link } from 'react-router-dom'
-import Chart from 'react-google-charts'
 import {Table, Button} from 'reactstrap'
 
 class TicketList extends React.Component {
@@ -22,7 +21,6 @@ class TicketList extends React.Component {
         })
          .then((response) => {
              const ticket = response.data
-             console.log('TICKET',ticket)
              this.setState(prevState => ({
                  tickets: prevState.tickets.concat(ticket),
                  count: ticket.length
@@ -131,14 +129,7 @@ class TicketList extends React.Component {
                 <Link to="/tickets/new"><Button color="secondary">Add Ticket</Button></Link>
 
                 <div>
-                    <Chart
-                        chartType="PieChart"
-                        data={[["High", "Medium"], ["high", 3], ["medium", 5.5], ["low", 2]]}
-                        graph_id="PieChart"
-                        width={"100%"}
-                        height={"400px"}
-                        legend_toggle
-                    />
+                    
                 </div>
             </div>
         )

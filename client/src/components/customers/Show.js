@@ -16,7 +16,6 @@ class CustomerShow extends React.Component{
 
     componentDidMount(){
         const id = this.props.match.params.id
-        console.log(id)
         axios.get(`/customers/${id}`,{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
@@ -27,7 +26,7 @@ class CustomerShow extends React.Component{
                 this.setState({customer})
             })
             .catch((err) => {
-                console.log(err)
+                alert(err)
             })
         
         axios.get('/tickets',{
@@ -37,9 +36,7 @@ class CustomerShow extends React.Component{
         })
             .then(response => {
                 const tickets = response.data
-                console.log('tkt',tickets)
                 const customerTickets = tickets.filter(ticket => ticket.customer._id == id)
-                console.log(customerTickets)
                 this.setState({ customerTickets })
             })
     }

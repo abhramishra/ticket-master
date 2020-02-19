@@ -6,7 +6,6 @@ import { Form, FormGroup, Label, Input, Button } from 'reactstrap'
 
 class TicketForm extends React.Component {
     constructor(props) {
-        console.log('form',props.ticket)
         super(props)
         this.state = {
             code: props.ticket ? props.ticket.code : '',
@@ -60,7 +59,6 @@ class TicketForm extends React.Component {
         })
          .then((response) => {
              const employees =  response.data
-             console.log(employees)
              this.setState({employees})
          })
          .catch((err) => {
@@ -105,7 +103,6 @@ class TicketForm extends React.Component {
     }
 
     render() {
-        console.log(this.state.employee)
         let customerOptions = []
         let deptoptions = []
         let employeeOptions = []

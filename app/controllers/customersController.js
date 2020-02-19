@@ -1,4 +1,5 @@
 const Customer = require('../models/customer')
+const Ticket = require('../models/ticket')
 
 module.exports.list = (req,res) => {
     Customer.find()
@@ -47,9 +48,19 @@ module.exports.update = (req,res) => {
 
 module.exports.destroy = (req,res) => {
     const id = req.params.id
-    Customer.findByIdAndRemove(id)
-        .then(customer => {
-            res.status(200).json(customer)
+    Ticket.find({customer: id})
+        .then(ticket => {
+            if (ticket.length) {
+                res.status(200).send({isCustomerAttached: true})
+            } else {
+                Customer.findByIdAndRemove(id)
+                    .then(customer => {
+                        res.status(200).send({isCustomerAttached: false})
+                    })
+                    .catch(err => {
+                        res.status(301).send(err)
+                    })
+            }         
         })
         .catch(err => {
             res.status(401).json(err)

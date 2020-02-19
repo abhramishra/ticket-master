@@ -70,12 +70,9 @@ userSchema.statics.findByCredential = function(email, password) {
             if (!user) {
                 return Promise.reject('Invalid email')
             }
-            console.log(password)
             return bcryptjs.compare(password, user.password)
                 .then(result => {
-                    console.log(result)
                     if (result) {
-                        console.log(user)
                         return Promise.resolve(user)
                     } else {
                         return Promise.reject('Invalid password')
@@ -123,7 +120,6 @@ userSchema.methods.generateToken = function() {
         access: 'auth',
         token
     })
-    console.log(user.tokens)
     return user.save()
         .then((user) => {
             return Promise.resolve(token)

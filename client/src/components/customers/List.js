@@ -2,6 +2,7 @@ import React from 'react'
 import axios from '../../config/axios';
 import { Link } from 'react-router-dom'
 import { Table, Button } from 'reactstrap'
+import isEmpty from 'lodash/isEmpty'
 
 class CustomerList extends React.Component {
     constructor() {
@@ -25,7 +26,7 @@ class CustomerList extends React.Component {
          })
     }
 
-    handleClick = (id) => {
+    handleRemove = (id) => {
         const confirm = window.confirm("Are you sure ?")
         if (confirm) {
             axios.delete(`/customers/${id}`,{
@@ -34,10 +35,14 @@ class CustomerList extends React.Component {
                 }
             })
             .then((response) => {
-                const customer = response.data
-                this.setState(prevState => ({
-                    customers: prevState.customers.filter(cust => cust._id != id)
-                }))
+                if (response.data.isCustomerAttached) {
+                    alert('This customer has assigned to some other ticket, you can not delete')
+                } else {
+                    this.setState(prevState => ({
+                        customers: prevState.customers.filter(cust => cust._id != id)
+                    }))
+                }
+                
             })
             .catch((err) => {
                 alert(err)
@@ -74,7 +79,7 @@ class CustomerList extends React.Component {
                                                 <td>{customer.mobile}</td>
                                                 <td><Link to={`/customers/${customer._id}`}><Button color="info">Show</Button></Link></td>
                                                 <td><Button color="danger" onClick={() => {
-                                                        this.handleClick(customer._id)
+                                                        this.handleRemove(customer._id)
                                                     }}>Remove</Button>
                                                 </td>
                                             </tr>

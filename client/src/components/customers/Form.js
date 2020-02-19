@@ -4,7 +4,6 @@ import { Form, FormGroup, Button, Input, Label } from 'reactstrap'
 
 class CustomerForm extends React.Component {
     constructor(props) {
-        console.log(props)
         super(props)
         this.state = {
             name: props.customer ? props.customer.name : '',
