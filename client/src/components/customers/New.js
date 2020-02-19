@@ -18,7 +18,7 @@ class CustomerNew extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>New Customer</h1>
                 <CustomerForm handleSubmit={this.handleSubmit} />
             </div>

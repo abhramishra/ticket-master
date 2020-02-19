@@ -1,5 +1,6 @@
 import React from 'react' 
 import axios from '../../config/axios'
+import { Button, Form, Input, Label } from 'reactstrap'
 
 class Login extends React.Component {
     constructor() {
@@ -39,17 +40,17 @@ class Login extends React.Component {
 
     render(){ 
         return (
-            <div>
+            <div className="container">
                 <h2>Login</h2>
-                <form onSubmit={this.handleSubmit}>  
-                    <label htmlFor="email">email</label>
-                    <input type="text" placeholder="Enter your email id" id="email" name="email" value={this.state.email} onChange={this.handleChange} /><br/>
+                <Form onSubmit={this.handleSubmit}>  
+                    <Label htmlFor="email">email</Label>
+                    <Input type="text" placeholder="Enter your email id" id="email" name="email" value={this.state.email} onChange={this.handleChange} /><br/>
 
-                    <label htmlFor="password">password</label>
-                    <input type="password" placeholder="Enter your password" id="password" name="password" value={this.state.password} onChange={this.handleChange} /><br/>
+                    <Label htmlFor="password">password</Label>
+                    <Input type="password" placeholder="Enter your password" id="password" name="password" value={this.state.password} onChange={this.handleChange} /><br/>
 
-                    <input type="submit" value="Login" />
-                </form>
+                    <Button>Login</Button>
+                </Form>
 
             </div> 
         )

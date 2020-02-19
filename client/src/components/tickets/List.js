@@ -1,15 +1,14 @@
 import React from 'react'
 import axios from '../../config/axios'
 import { Link } from 'react-router-dom'
+import Chart from 'react-google-charts'
+import {Table, Button} from 'reactstrap'
 
 class TicketList extends React.Component {
     constructor() {
         super()
         this.state = {
             tickets: [],
-            employees: [],
-            departments: [],
-            customers: [],
             progressBar: 0,
             count: 0
         }
@@ -23,7 +22,7 @@ class TicketList extends React.Component {
         })
          .then((response) => {
              const ticket = response.data
-            //  console.log(ticket)
+             console.log('TICKET',ticket)
              this.setState(prevState => ({
                  tickets: prevState.tickets.concat(ticket),
                  count: ticket.length
@@ -32,50 +31,6 @@ class TicketList extends React.Component {
          .catch((err) => {
              alert(err)
          })
-        // to get all the employee
-        axios.get('/employees',{
-            headers: {
-                'x-auth': localStorage.getItem('authToken')
-            }
-        })
-         .then((response) => {
-             const employees =  response.data
-            //  console.log(employees)
-             this.setState({employees})
-         })
-         .catch((err) => {
-             alert(err)
-         })
-
-        // to get all the departments
-        axios.get('/departments',{
-            headers: {
-                'x-auth': localStorage.getItem('authToken')
-            }
-        })
-         .then((response) => {
-             const departments =  response.data
-             console.log(departments)
-             this.setState({departments})
-         })
-         .catch((err) => {
-             alert(err)
-         })
-        // to get all the customers
-        axios.get('/customers',{
-            headers: {
-                'x-auth': localStorage.getItem('authToken')
-            }
-        })
-         .then((response) => {
-             const customers =  response.data
-             console.log(customers)
-             this.setState({customers})
-         })
-         .catch((err) => {
-             alert(err)
-         })
-
     }
 
     handleChange = (e) => {
@@ -108,11 +63,31 @@ class TicketList extends React.Component {
             }
     }
 
+    handleRemove = (id) => {
+        const confirm = window.confirm("Are you sure ?")
+        if (confirm) {
+            axios.delete(`/tickets/${id}`, {
+                headers: {
+                    'x-auth': localStorage.getItem('authToken')
+                }
+            })
+             .then(response => {
+                const tickets = this.state.tickets.filter(ticket => ticket._id != id)
+                this.setState({ tickets })
+             })
+             .catch(err => {
+                 alert(err)
+             })
+            
+        }
+        
+    }
+
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>Tickets - { this.state.tickets.length } </h1>
-                <table border="1">
+                <Table striped>
                     <thead>
                         <tr>
                             <th>Code no</th>
@@ -132,24 +107,39 @@ class TicketList extends React.Component {
                                 return (
                                     <tr key={ticket._id}>
                                         <td>{ ticket.code }</td>
-                                        <td>{ this.state.customers.length && this.state.customers.find(customer => customer._id == ticket.customer).name }</td>
-                                        <td>{ this.state.departments.length && this.state.departments.find(department => department._id == ticket.department).name }</td>
-                                        <td>pending</td>
+                                        {/* <td>{ this.state.customers.length && this.state.customers.find(customer => customer._id == ticket.customer._id).name }</td> */}
+                                        <td>{ ticket.customer.name }</td>
+                                        {/* <td>{ this.state.departments.length && this.state.departments.find(department => department._id == ticket.department._id).name }</td> */}
+                                        <td>{ ticket.department.name }</td>
+                                        <td>{ ticket.employees.map(emp => <li key={emp._id}>{ emp.name }</li>) }</td>
                                         <td>{ ticket.message }</td>
-                                        <td>{ ticket.priority }</td>
-                                        <td><button>Show</button></td>
-                                        <td><button>Remove</button></td>
+                                        <td>{ ticket.priorities }</td>
+                                        <td><Link to={`/tickets/${ticket._id}`}><Button color="info">Show</Button></Link></td>
+                                        <td><Button color="danger" onClick={() => {
+                                            this.handleRemove(ticket._id)
+                                        }}>Remove</Button></td>
                                         <td><input type="checkbox" onChange={this.handleChange}/></td>
                                     </tr>
                                 )
                             })
                         }
                     </tbody>
-                </table>
+                </Table>
                 <div className="progress">
                     <div className="progress-bar" style={{width: `${this.state.progressBar}%`}}></div>
                 </div>
-                <Link to="/ticket/new">Add Ticket</Link>
+                <Link to="/tickets/new"><Button color="secondary">Add Ticket</Button></Link>
+
+                <div>
+                    <Chart
+                        chartType="PieChart"
+                        data={[["High", "Medium"], ["high", 3], ["medium", 5.5], ["low", 2]]}
+                        graph_id="PieChart"
+                        width={"100%"}
+                        height={"400px"}
+                        legend_toggle
+                    />
+                </div>
             </div>
         )
     }

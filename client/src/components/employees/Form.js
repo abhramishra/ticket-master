@@ -1,14 +1,16 @@
 import React from 'react'
 import axios from '../../config/axios'
+import { Link } from 'react-router-dom'
+import { Form, FormGroup, Input, Label, Button  } from 'reactstrap'
 
 class EmployeesForm extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
-            name: '',
-            email: '',
-            mobile: '',
-            department: '',
+            name: props.employee ? props.employee.name : '',
+            email: props.employee ? props.employee.email : '',
+            mobile: props.employee ? props.employee.mobile : '',
+            department: props.employee ? props.employee.department : '',
             departments: []            
         }
     }
@@ -47,29 +49,30 @@ class EmployeesForm extends React.Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmitData}>
-                    <label htmlFor="name">Name</label><br/>
-                    <input type="text" id="name" name="name" value={this.state.name} onChange={this.handleChange} /><br/>
+            <div className="container">
+                <Form onSubmit={this.handleSubmitData}>
+                    <Label htmlFor="name">Name</Label><br/>
+                    <Input type="text" id="name" name="name" value={this.state.name} onChange={this.handleChange} /><br/>
 
-                    <label htmlFor="name">Email</label><br/>
-                    <input type="text" id="Email" name="email" value={this.state.Email} onChange={this.handleChange} /><br/>
+                    <Label htmlFor="name">Email</Label><br/>
+                    <Input type="text" id="Email" name="email" value={this.state.email} onChange={this.handleChange} /><br/>
 
-                    <label htmlFor="name">Mobile</label><br/>
-                    <input type="text" id="Mobile" name="mobile" value={this.state.Mobile} onChange={this.handleChange} /><br/>
+                    <Label htmlFor="name">Mobile</Label><br/>
+                    <Input type="text" id="Mobile" name="mobile" value={this.state.mobile} onChange={this.handleChange} /><br/>
 
-                    <label htmlFor="department">Department</label><br/>
-                    <select id="department" name="department" value={ this.state.department } onChange={ this.handleChange } >
+                    <Label htmlFor="department">Department</Label><br/>
+                    <Input type="select" id="department" name="department" value={ this.state.department } onChange={ this.handleChange } >
                         <option>select department</option>
                         {
                             this.state.departments.map(dept => {
                                 return <option key={dept._id} value={ dept._id }>{ dept.name }</option>
                             })
                         }
-                    </select><br/>
+                    </Input><br/>
 
-                    <input type="submit" />
-                </form>
+                    <Button>Submit</Button>
+                    <Link to="/employees"> <Button>Back</Button></Link>
+                </Form>
             </div>
         )
     }

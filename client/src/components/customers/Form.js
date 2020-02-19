@@ -1,4 +1,6 @@
 import React from 'react' 
+import { Link } from 'react-router-dom'
+import { Form, FormGroup, Button, Input, Label } from 'reactstrap'
 
 class CustomerForm extends React.Component {
     constructor(props) {
@@ -29,19 +31,23 @@ class CustomerForm extends React.Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmitData}>
-                    <label htmlFor="name">Name</label>
-                    <input type="text" id="name" name="name" onChange={this.handleChange} value={this.state.name} /><br/>
-
-                    <label htmlFor="email">Email</label>
-                    <input type="text" id="email" name="email" onChange={this.handleChange} value={this.state.email} /><br/>
-
-                    <label htmlFor="mobile">Mobile</label>
-                    <input type="text" id="mobile" name="mobile" onChange={this.handleChange} value={this.state.mobile} /><br/>
-
-                    <input type="submit" />
-                </form>
+            <div className="container">
+                <Form onSubmit={this.handleSubmitData}>
+                    <FormGroup>
+                        <Label htmlFor="name">Name</Label>
+                        <Input type="text" id="name" name="name" onChange={this.handleChange} value={this.state.name} placeholder="enter your name" />
+                    </FormGroup> 
+                    <FormGroup>
+                        <Label htmlFor="email">Email</Label>
+                        <Input type="text" id="email" name="email" onChange={this.handleChange} value={this.state.email} placeholder="enter your email" />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label htmlFor="mobile">Mobile</Label>
+                        <Input type="text" id="mobile" name="mobile" onChange={this.handleChange} value={this.state.mobile} placeholder="enter your mobile number" />
+                    </FormGroup>         
+                    <Button color="secondary">Submit</Button>
+                    <Link to="/customers"> <Button color="secondary">Back</Button></Link>
+                </Form>
             </div>
         )
     }

@@ -1,15 +1,24 @@
 import React from 'react'
 import Select from 'react-select'
 import axios from '../../config/axios'
+import { Link } from 'react-router-dom'
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap'
+
 class TicketForm extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        console.log('form',props.ticket)
+        super(props)
         this.state = {
-            code: '',
+            code: props.ticket ? props.ticket.code : '',
+            customer: props.ticket ? props.ticket.customer : '',
+            department: props.ticket ? props.ticket.department  : '',
+            employee: props.ticket ? props.ticket.employees : [],
+            message: props.ticket ? props.ticket.message : '',
+            priority:  props.ticket ? props.ticket.priorities : '',
             customers: [],
             departments: [],
             employees: [],
-            abc: ['a','b','c']
+            selectedEmployee: []
 
         }
     }
@@ -57,57 +66,101 @@ class TicketForm extends React.Component {
          .catch((err) => {
              alert(err)
          })
+    }
 
+    handleChange = (e) => {
+        const value = e.target.value
+        this.setState({
+            [e.target.name]: value
+        })
+    }
 
+    handleCustomer = (optionSelected) => {
+        const customer = optionSelected.value
+        this.setState({ customer })
+    }
 
-        // function getCustomers() {
-        //     return new Promise((resolve, reject) => {
-        //         axios.get('/customers',{
-        //             headers: {
-        //                 'x-auth': localStorage.getItem('authToken')
-        //             }
-        //         })
-        //     })
-        // }
-        // function getDepartments() {
-        //     return new Promise((resolve, reject) => {
-        //         axios.get('/departments',{
-        //             headers: {
-        //                 'x-auth': localStorage.getItem('authToken')
-        //             }
-        //         })
-        //     })
-        // }
-        // function getEmployee() {
-        // }
+    handleEmployee = (optionSelected) => {
+        const employee = optionSelected.map(emp => emp.value)
+        this.setState({ employee })
+    }
 
-        // Promise.all([ getCustomers(), getDepartments() ])
-        //     .then((values) => {
-        //         const [ customers, departments ] = values
-        //         console.log('customer details',customers)
-        //     })
-        //     .catch((err) => {
-        //         alert(err)
-        //     })
+    handleDepartment = (optionSelected) => {
+        const department = optionSelected.value
+        const selectedEmployee = this.state.employees.filter(employee => employee.department._id == department)
+        this.setState({ selectedEmployee, department })
+    }
+
+    handleSubmitData = (e) => {
+        e.preventDefault()
+        const formData = {
+            code: this.state.code,
+            customer: this.state.customer,
+            department: this.state.department,
+            employees: this.state.employee,
+            message: this.state.message,
+            priorities: this.state.priority
+        }
+        this.props.handleSubmit(formData)
     }
 
     render() {
-        return (
-            <div>
-                <form>
-                    <label>Code</label><br/>
-                    <input type="text" value={this.state.code} name="code" onChange={this.handleChange} /><br/>
-                    <label>Customer</label><br/>
-                    
+        console.log(this.state.employee)
+        let customerOptions = []
+        let deptoptions = []
+        let employeeOptions = []
 
-                    {/* <Select 
-                        name="customer"
-                        placeholder="Select"
-                        value={this.state.employee}
-                        options={this.state.abc}
-                        isMulti
-                    /> */}
-                </form>
+        this.state.customers.forEach(emp => {
+            const option = { value: emp._id, label: emp.name }
+            customerOptions.push(option)
+        })
+        
+        this.state.departments.forEach(dept => {
+        deptoptions.push({ value: dept._id, label: dept.name })
+        })
+
+        this.state.selectedEmployee.forEach(emp => {
+            employeeOptions.push({ value: emp._id, label: emp.name })
+        })
+
+        return (
+            <div className="container">
+                <Form onSubmit={this.handleSubmitData}>
+                    <Label>Code</Label><br/>
+                    <Input type="text" value={this.state.code} name="code" onChange={this.handleChange} /><br/>
+                    <Label>Customer</Label><br/>
+                    <Select options={customerOptions} onChange={this.handleCustomer} name="customer" disabled="true"/>
+                    <Label>Department</Label>
+                    <Select options={deptoptions} onChange={this.handleDepartment} id="dept"/>
+                    <Label>Employee</Label>
+                    <Select options={employeeOptions} isMulti onChange={this.handleEmployee} />
+                    <Label>Mesage</Label><br/>
+                    <Input type="textarea" row="10" cols="100" onChange={this.handleChange} name="message" value={this.state.message} /><br/>
+
+                    <FormGroup tag="fieldset">
+                        <legend>Priority</legend>
+                        <FormGroup check>
+                            <Label check>
+                                <Input type="radio" name="priority" value="high" onChange={this.handleChange}/>{' '}
+                                High
+                            </Label>
+                        </FormGroup>
+                        <FormGroup check>
+                            <Label check>
+                                <Input type="radio" name="priority" value="medium" onChange={this.handleChange} />{' '}
+                                Medium
+                            </Label>
+                        </FormGroup>
+                        <FormGroup check disabled>
+                            <Label check>
+                                <Input type="radio" name="priority" value="low" onChange={this.handleChange} />{' '}
+                                Low
+                            </Label>
+                        </FormGroup>
+                    </FormGroup>
+                    <Button>Submit</Button>
+                    <Link to="/tickets"> <Button>Back</Button></Link>
+                </Form>
             </div>
         )
     }

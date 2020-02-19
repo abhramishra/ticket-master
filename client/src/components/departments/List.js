@@ -1,7 +1,8 @@
 import React from 'react'
 import DepartmentForm from './Form'
+import { Link } from 'react-router-dom'
 import axios from '../../config/axios'
-
+import { ListGroup, ListGroupItem, Button } from 'reactstrap'
 class DepartmentList extends React.Component {
     constructor() {
         super()
@@ -66,17 +67,26 @@ class DepartmentList extends React.Component {
     
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>Department - { this.state.departments.length }</h1>
-                <ul>
+                <ListGroup>
                     {
                         this.state.departments.map(department => {
-                            return <li key={department._id}>{ department.name } <button onClick={() => {
-                                this.handleRemove(department._id)
-                            }}>remove</button></li>
+                            return (
+                                <ListGroupItem key={department._id}>
+                                    { department.name } 
+                                    <div className="float-right">
+                                        <Link to={`/departments/${department._id}`}><Button color="info" >Show</Button></Link>
+                                        <Button color="danger" onClick={() => {
+                                            this.handleRemove(department._id)
+                                        }}>remove</Button>
+                                    </div>
+                                    
+                                </ListGroupItem>
+                            ) 
                         })
                     }
-                </ul>
+                </ListGroup>
                 <DepartmentForm handleSubmit={this.handleSubmit} />
             </div>
         )

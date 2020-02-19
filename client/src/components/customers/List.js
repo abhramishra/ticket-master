@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from '../../config/axios';
 import { Link } from 'react-router-dom'
+import { Table, Button } from 'reactstrap'
 
 class CustomerList extends React.Component {
     constructor() {
@@ -46,31 +47,51 @@ class CustomerList extends React.Component {
  
     render() {
         return (
-            <div>
-                <h2>Listing Customers</h2>
+            <div className="container">
+                <h2>Listing Customers - {this.state.customers.length}</h2>
                 {
-                    this.state.customers.length == 0 ? (
-                        <div>
-                            <p>No customer found. Add your first customer</p>
-                        </div>
-                    ) : (
-                        <div>
-                            <ul>
+                    this.state.customers.length > 0 ? (
+                    <div>
+                        <Table striped>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Mobile</th>
+                                    <th>Actions</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 {
                                     this.state.customers.map(customer => {
-                                        return <li key={customer._id}><Link to={`/customers/${customer._id}`}>{ customer.name }</Link>
-                                            <button onClick={() => {
-                                                this.handleClick(customer._id)
-                                            }}>Remove</button>
-                                        </li>
+                                        return (
+                                            <tr key={customer._id} >
+                                                <td >{customer._id}</td>
+                                                <td>{customer.name}</td>
+                                                <td>{customer.email}</td>
+                                                <td>{customer.mobile}</td>
+                                                <td><Link to={`/customers/${customer._id}`}><Button color="info">Show</Button></Link></td>
+                                                <td><Button color="danger" onClick={() => {
+                                                        this.handleClick(customer._id)
+                                                    }}>Remove</Button>
+                                                </td>
+                                            </tr>
+                                        )
                                     })
                                 }
-                            </ul>
+                            </tbody>
+                        </Table>
+                    </div>
+                    ):(
+                        <div>
+                            <p>No employee added</p>
                         </div>
                     )
+
                 }
-                
-                <Link to="/customers/new">Add Customer</Link>
+                <Link to="/customers/new"><Button color="secondary">Add Customer</Button></Link>
             </div>
         )
     }

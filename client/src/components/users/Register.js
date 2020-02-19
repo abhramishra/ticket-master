@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from '../../config/axios'
+import { Button, Form, Input, Label } from 'reactstrap'
 
 class Register extends React.Component {
     constructor() {
@@ -44,20 +45,20 @@ class Register extends React.Component {
 
     render() {
         return (
-            <div>
-                <h2>Register</h2>
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" id="username" name="username" value={this.state.username} onChange={this.handleChange} /> <br/>
+            <div className="container">
+                <h2>Sign up</h2>
+                <Form onSubmit={this.handleSubmit}>
+                    <Label htmlFor="username">Username</Label>
+                    <Input type="text" id="username" name="username" value={this.state.username} onChange={this.handleChange} placeholder="Enter the username" /> <br/>
 
-                    <label htmlFor="email">Email</label>
-                    <input type="text" id="email" name="email" value={this.state.email} onChange={this.handleChange} /> <br />
+                    <Label htmlFor="email">Email</Label>
+                    <Input type="text" id="email" name="email" value={this.state.email} onChange={this.handleChange} placeholder="Enter your email" /> <br />
 
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" value={this.state.password} onChange={this.handleChange} /> <br />
+                    <Label htmlFor="password">Password</Label>
+                    <Input type="password" id="password" name="password" value={this.state.password} onChange={this.handleChange} placeholder="create a password" /> <br />
 
-                    <input type="submit" value="register with us" />
-                </form>
+                    <Button>Register with us</Button>
+                </Form>
             </div>
         )
     }

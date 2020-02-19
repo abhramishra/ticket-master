@@ -46,7 +46,7 @@ class CustomerEdit extends React.Component {
     render() {
         console.log('inside render',this.state.customer)
         return (
-            <div>
+            <div className="container">
                 <h1>Customer Edit</h1>
                 {
                     !isEmpty(this.state.customer) && <Form handleSubmit={this.handleSubmit} customer={this.state.customer}/>

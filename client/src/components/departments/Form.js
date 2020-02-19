@@ -1,10 +1,11 @@
 import React from 'react'
+import { Form, Button } from 'reactstrap'
 
 class DepartmentForm extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
-            name: ''
+            name: props.department ? props.department.name : ''
         }
     }
 
@@ -24,13 +25,14 @@ class DepartmentForm extends React.Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmitData}>
-                    <label htmlFor="name">Name</label><br/>
-                    <input type="text" id="name" name="name" onChange={this.handleChange} value={this.state.name} /><br/>
+            <div className="container">
+                <Form onSubmit={this.handleSubmitData}>
+                    <br/><br/><h2><label htmlFor="name">Add Department</label></h2><br/>
+                    <input type="text" id="name" name="name" onChange={this.handleChange} value={this.state.name} /><br/><br/>
 
-                    <input type="submit" />
-                </form>
+                    {/* <input type="submit" /> */}
+                    <Button color="secondary">Submit</Button>
+                </Form>
             </div>
         )
     }
