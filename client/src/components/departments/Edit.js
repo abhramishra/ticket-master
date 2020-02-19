@@ -42,7 +42,7 @@ class DepartmentEdit extends React.Component {
     render() {
         return (
             <div className="container">
-                <h1>Edit</h1>
+                <h2>Department Edit</h2>
                 { !isEmpty(this.state.department) && <DepartmentForm handleSubmit={this.handleSubmit} department={this.state.department} /> }
             </div>
         )

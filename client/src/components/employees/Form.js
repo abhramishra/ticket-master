@@ -50,6 +50,7 @@ class EmployeesForm extends React.Component {
     render() {
         return (
             <div className="container">
+                <h2>Add new employee</h2>
                 <Form onSubmit={this.handleSubmitData}>
                     <Label htmlFor="name">Name</Label><br/>
                     <Input type="text" id="name" name="name" value={this.state.name} onChange={this.handleChange} /><br/>

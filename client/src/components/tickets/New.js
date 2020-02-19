@@ -26,7 +26,7 @@ class TicketNew extends React.Component {
     render() {
         return (
             <div className="container">
-                <h1>Add Ticket</h1>
+                <h2>Add Ticket</h2>
                 <TicketForm handleSubmit={this.handleSubmit} />
             </div>
         )
