@@ -45,6 +45,7 @@ class TicketList extends React.Component {
     }
 
     handleChange = (e) => {
+        // axios.put('/tickets/')
 
             // console.log('COUNT', this.state.count)
             // if (e.target.checked) {
@@ -143,7 +144,9 @@ class TicketList extends React.Component {
                                         <td><Button color="danger" onClick={() => {
                                             this.handleRemove(ticket._id)
                                         }}>Remove</Button></td>
-                                        <td><input type="checkbox" onChange={this.handleChange}/></td>
+                                        <td><input type="checkbox" onChange={() => {
+                                            this.handleChange(ticket._id)
+                                        }} /></td>
                                     </tr>
                                 )
                             })
