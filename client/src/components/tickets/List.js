@@ -2,12 +2,15 @@ import React from 'react'
 import axios from '../../config/axios'
 import { Link } from 'react-router-dom'
 import {Table, Button} from 'reactstrap'
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 
 class TicketList extends React.Component {
     constructor() {
         super()
         this.state = {
             tickets: [],
+            pieChartOptions: [],
             progressBar: 0,
             count: 0
         }
@@ -21,44 +24,56 @@ class TicketList extends React.Component {
         })
          .then((response) => {
              const ticket = response.data
+             console.log(ticket)
              this.setState(prevState => ({
                  tickets: prevState.tickets.concat(ticket),
                  count: ticket.length
-             }))            
+             }))  
+             this.setupPieData()
          })
          .catch((err) => {
              alert(err)
          })
     }
 
+    setupPieData = () => {
+        const highData = this.state.tickets.filter(ticket => ticket.priorities == 'high')        
+        const mediumData = this.state.tickets.filter(ticket => ticket.priorities == 'medium')
+        const lowData = this.state.tickets.filter(ticket => ticket.priorities == 'low')
+        const pieChartOptions = [{ name: 'High',y: highData.length }, { name: 'Medium', y: mediumData.length}, { name: 'Low', y: lowData.length}]
+        this.setState({ pieChartOptions })
+    }
+
     handleChange = (e) => {
-            console.log('COUNT', this.state.count)
-            if (e.target.checked) {
-                const progressBar = (100 / this.state.count)
-                console.log(progressBar)
-                this.setState(prevState => ({
-                    progressBar,
-                    count: prevState.count - 1
-                }))
-            } else {
+        // axios.put('/tickets/')
 
-                if (this.state.count == 0 ){
-                    const progressBar = 0
-                    this.setState(prevState => ({
-                        progressBar,
-                        count: prevState.count + 1
-                    }))
-                } else {
-                    const progressBar = 100 / this.state.count
-                    alert(progressBar)
-                    this.setState(prevState => ({
-                        progressBar,
-                        count: prevState.count + 1
-                    }))
-                }
-                console.log('COUNT', this.state.count)
+            // console.log('COUNT', this.state.count)
+            // if (e.target.checked) {
+            //     const progressBar = (100 / this.state.count)
+            //     console.log(progressBar)
+            //     this.setState(prevState => ({
+            //         progressBar,
+            //         count: prevState.count - 1
+            //     }))
+            // } else {
 
-            }
+            //     if (this.state.count == 0 ){
+            //         const progressBar = 0
+            //         this.setState(prevState => ({
+            //             progressBar,
+            //             count: prevState.count + 1
+            //         }))
+            //     } else {
+            //         const progressBar = 100 / this.state.count
+            //         alert(progressBar)
+            //         this.setState(prevState => ({
+            //             progressBar,
+            //             count: prevState.count + 1
+            //         }))
+            //     }
+            //     console.log('COUNT', this.state.count)
+
+            // }
     }
 
     handleRemove = (id) => {
@@ -72,6 +87,7 @@ class TicketList extends React.Component {
              .then(response => {
                 const tickets = this.state.tickets.filter(ticket => ticket._id != id)
                 this.setState({ tickets })
+                this.setupPieData()
              })
              .catch(err => {
                  alert(err)
@@ -82,6 +98,20 @@ class TicketList extends React.Component {
     }
 
     render() {
+        const options = {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'My Chart'
+            },
+            series: [
+                {
+                    // data: [{name: 'High', y: 6}, {name: 'Medium', y: 2}, {name: 'Low', y: 2 }]
+                    data: this.state.pieChartOptions
+                }
+            ]
+        };
         return (
             <div className="container">
                 <h1>Tickets - { this.state.tickets.length } </h1>
@@ -105,9 +135,7 @@ class TicketList extends React.Component {
                                 return (
                                     <tr key={ticket._id}>
                                         <td>{ ticket.code }</td>
-                                        {/* <td>{ this.state.customers.length && this.state.customers.find(customer => customer._id == ticket.customer._id).name }</td> */}
                                         <td>{ ticket.customer.name }</td>
-                                        {/* <td>{ this.state.departments.length && this.state.departments.find(department => department._id == ticket.department._id).name }</td> */}
                                         <td>{ ticket.department.name }</td>
                                         <td>{ ticket.employees.map(emp => <li key={emp._id}>{ emp.name }</li>) }</td>
                                         <td>{ ticket.message }</td>
@@ -116,7 +144,9 @@ class TicketList extends React.Component {
                                         <td><Button color="danger" onClick={() => {
                                             this.handleRemove(ticket._id)
                                         }}>Remove</Button></td>
-                                        <td><input type="checkbox" onChange={this.handleChange}/></td>
+                                        <td><input type="checkbox" onChange={() => {
+                                            this.handleChange(ticket._id)
+                                        }} /></td>
                                     </tr>
                                 )
                             })
@@ -129,7 +159,7 @@ class TicketList extends React.Component {
                 <Link to="/tickets/new"><Button color="secondary">Add Ticket</Button></Link>
 
                 <div>
-                    
+                    <HighchartsReact highcharts={Highcharts} options={options} />
                 </div>
             </div>
         )
