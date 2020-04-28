@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.js": "/static/js/main.b257401b.chunk.js",
+    "main.js.map": "/static/js/main.b257401b.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.66cbf70e.js",
+    "runtime-main.js.map": "/static/js/runtime-main.66cbf70e.js.map",
+    "static/css/2.17e5ed98.chunk.css": "/static/css/2.17e5ed98.chunk.css",
+    "static/js/2.5f0c5a78.chunk.js": "/static/js/2.5f0c5a78.chunk.js",
+    "static/js/2.5f0c5a78.chunk.js.map": "/static/js/2.5f0c5a78.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.53bcd8b2e424b24576d9dec3531d6e3b.js": "/precache-manifest.53bcd8b2e424b24576d9dec3531d6e3b.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.17e5ed98.chunk.css.map": "/static/css/2.17e5ed98.chunk.css.map",
+    "static/js/2.5f0c5a78.chunk.js.LICENSE": "/static/js/2.5f0c5a78.chunk.js.LICENSE",
+    "static/media/help-desk-tickets.webp": "/static/media/help-desk-tickets.09afc165.webp"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.66cbf70e.js",
+    "static/css/2.17e5ed98.chunk.css",
+    "static/js/2.5f0c5a78.chunk.js",
+    "static/js/main.b257401b.chunk.js"
+  ]
+}

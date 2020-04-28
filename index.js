@@ -3,7 +3,9 @@ const app = express()
 const routes = require('./config/routes')
 const cors = require('cors')
 require('dotenv').config()
-const port = process.env.PORT
+const path = require('path')
+
+const port = process.env.PORT || 3000
 const mongoose = require('./config/database')
 
 const corsOptions = { exposedHeaders: 'x-auth' }    // to exposed the x-auth token in the response headers
@@ -13,6 +15,11 @@ app.use(cors())
 app.use(cors(corsOptions))
 
 app.use('/', routes)
+
+app.use(express.static(path.join(__dirname,"client/build"))) 
+app.get("*",(req,res) => { 
+    res.sendFile(path.join(__dirname + "/client/build/index.html")) 
+}) 
 app.listen(port, () => {
     console.log('Listening to port', port)
 })
