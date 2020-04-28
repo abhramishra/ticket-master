@@ -17,12 +17,12 @@ mongoose.Promise = global.Promise
 //         console.log('faileds')
 //     })
 
-const mongoose=require('mongoose') 
- const configureDB=()=>{   
+const configureDB=()=>{   
        //DB configuration   
          mongoose.connect('mongodb+srv://admin:admin@cluster0-tzrg0.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true,useUnifiedTopology:true,useCreateIndex:true,useFindAndModify:false})  
             .then(()=>{         console.log('connected to db')     })    
-             .catch(()=>{         console.log(err)     }) } 
+             .catch(()=>{         console.log(err)     }) 
+        } 
              
              
 module.exports=configureDB
