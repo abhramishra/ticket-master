@@ -6,8 +6,8 @@ require('dotenv').config()
 const path = require('path')
 
 const port = process.env.PORT || 3000
-const mongoose = require('./config/database')
-
+const configureDB = require('./config/database')
+configureDB()
 const corsOptions = { exposedHeaders: 'x-auth' }    // to exposed the x-auth token in the response headers
 
 app.use(express.json())
