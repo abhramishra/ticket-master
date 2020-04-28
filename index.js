@@ -13,10 +13,10 @@ const corsOptions = { exposedHeaders: 'x-auth' }    // to exposed the x-auth tok
 app.use(express.json())
 app.use(cors())
 app.use(cors(corsOptions))
+app.use(express.static(path.join(__dirname,"client/build"))) 
 
 app.use('/', routes)
 
-app.use(express.static(path.join(__dirname,"client/build"))) 
 app.get("*",(req,res) => { 
     res.sendFile(path.join(__dirname + "/client/build/index.html")) 
 }) 
