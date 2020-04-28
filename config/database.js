@@ -3,19 +3,14 @@ mongoose.Promise = global.Promise
 // const MongoClient = require('mongodb').MongoClient;
 // const client = new MongoClient(uri, { useNewUrlParser: true });
 const configureDB = () => {
-    let dbUrl 
-    if (process.env.NODE_ENV == 'development') {
-        dbUrl = 'mongodb://localhost:27017/ticket-master'
-    } else {
-        dbUrl = "mongodb+srv://admin:admin@cluster0-tzrg0.mongodb.net/test?retryWrites=true&w=majority"
-    }
-    mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
-        .then(() => {
-            console.log('connected to db')
-        })
-        .catch(() => {
-            console.log('faileds')
-        })
+    const CONNECTION_URI= process.env.MONGODB_URI || "mongodb://localhost:27017/ticket-master-bk"
+    mongoose.connect(CONNECTION_URI,{useNewUrlParser: true})
+    .then(()=>{
+        console.log('succesfully connected to db')
+    })
+    .catch(()=>{
+        console.log('error connecting to db')
+    })
 }
                           
 module.exports = configureDB
