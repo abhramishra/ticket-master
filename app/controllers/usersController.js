@@ -20,7 +20,7 @@ module.exports.login = (req,res) => {
             // res.send(user)
         })
         .then((token) => {
-            res.header('x-auth', token).send({})
+            res.header('x-auth', token).send(user)
             // res.setHeader('x-auth', token).send({abc})
         })
         .catch((err) => {
