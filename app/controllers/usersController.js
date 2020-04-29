@@ -14,12 +14,15 @@ module.exports.register = (req,res) => {
 
 module.exports.login = (req,res) => {
     const { email, password } = req.body
+    let user
     User.findByCredential(email, password)
-        .then((user) => {
+        .then((userFound) => {
+            user = userFound
             return user.generateToken()
             // res.send(user)
         })
         .then((token) => {
+            user = {_id: user._id,username: user.username,email: user.email}
             res.header('x-auth', token).send(user)
             // res.setHeader('x-auth', token).send({abc})
         })
