@@ -9,7 +9,7 @@ const departmentsController = require('../app/controllers/departmentsController'
 const employeesController = require('../app/controllers/employeesController')
 const ticketsController = require('../app/controllers/ticketsController')
 
-router.get('/', homeController.welcome)
+// router.get('/', homeController.welcome)
 
 router.post('/users/', usersController.register)
 router.post('/users/login', usersController.login)
