@@ -8,12 +8,14 @@ const customersController = require('../app/controllers/customersController')
 const departmentsController = require('../app/controllers/departmentsController')
 const employeesController = require('../app/controllers/employeesController')
 const ticketsController = require('../app/controllers/ticketsController')
+const { upload } = require('../app/middlewares/multer')
 
 // router.get('/', homeController.welcome)
 
 router.post('/users/', usersController.register)
 router.post('/users/login', usersController.login)
 router.get('/users/account', authenticateUser, usersController.account)
+router.put('/users/account', upload.single('avatar'), authenticateUser, usersController.update)
 router.delete('/users/logout', authenticateUser, usersController.logout)
 
 // customer routes

@@ -3,7 +3,7 @@ const mongoose = require('./config/database')
 const routes = require('./config/routes')
 const cors = require('cors')
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 //require('dotenv').config()
 const path = require('path')
 
@@ -12,6 +12,7 @@ const corsOptions = { exposedHeaders: 'x-auth' }    // to exposed the x-auth tok
 app.use(express.json())
 app.use(cors())
 app.use(cors(corsOptions))
+app.use('/uploads',express.static('uploads'))
 
 app.use('/', routes)
 if ( process.env.NODE_ENV == "production" ) {

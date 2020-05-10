@@ -29,6 +29,9 @@ const userSchema = new Schema({
         minlength: 8,
         maxlength: 128
     },
+    avatar: {
+        type: String
+    },
     tokens: [
         {
             token: {

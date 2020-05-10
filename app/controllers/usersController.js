@@ -22,7 +22,7 @@ module.exports.login = (req,res) => {
             // res.send(user)
         })
         .then((token) => {
-            user = {_id: user._id,username: user.username,email: user.email}
+            user = {_id: user._id,username: user.username,email: user.email, avatar: user.avatar}
             res.header('x-auth', token).send(user)
             // res.setHeader('x-auth', token).send({abc})
         })
@@ -33,7 +33,8 @@ module.exports.login = (req,res) => {
 
 module.exports.account = (req,res) => {
     const user = req.user   // req.user data is comming from authenticateUser
-    res.send(user)
+    console.log('user - ', user)
+    res.status(200).send(user)
 }
 
 module.exports.logout = (req, res) => {
@@ -47,3 +48,18 @@ module.exports.logout = (req, res) => {
         }) 
 }
 
+module.exports.update = (req,res) => {
+    console.log("Came to put method")
+    const id = req.user._id
+    const body = {
+        avatar: req.file.path
+    }
+    User.findByIdAndUpdate(id, body, { new: true, runValidators: true })
+        .then(user => {
+            res.status(200).send(user)
+        })
+        .catch(err => {
+            console.log("Came to catch", err)
+            res.status(401).send(err)
+        })
+}
